@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -212,5 +213,94 @@ public class mainApp {
             System.out.println("Error reading transactions.");
         }
         return transactions;
+    }
+        static ArrayList<Transaction> onlyDeposits() {
+        ArrayList<Transaction> all = readTransactions();
+        ArrayList<Transaction> deposits = new ArrayList<>();
+        for (Transaction transaction : all) {
+            if (transaction.amount >= 0) {
+                deposits.add(transaction);
+            }
+        }
+        return deposits;
+    }
+
+    static ArrayList<Transaction> onlyPayments() {
+        ArrayList<Transaction> all = readTransactions();
+        ArrayList<Transaction> payments = new ArrayList<>();
+        for (Transaction transaction : all) {
+            if (transaction.amount < 0) {
+                payments.add(transaction);
+            }
+        }
+        return payments;
+    }
+
+    static ArrayList<Transaction> byCurrentMonth() {
+        ArrayList<Transaction> result = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        int m = now.getMonthValue();
+        int y = now.getYear();
+        ArrayList<Transaction> all = readTransactions();
+
+        for (Transaction t : all) {
+            if (t.date.getMonthValue() == m && t.date.getYear() == y) {
+                result.add(t);
+            }
+        }
+        return result;
+    }
+
+    static ArrayList<Transaction> byPreviousMonth() {
+        ArrayList<Transaction> result = new ArrayList<>();
+        LocalDate now = LocalDate.now().minusMonths(1);
+        int m = now.getMonthValue();
+        int y = now.getYear();
+        ArrayList<Transaction> all = readTransactions();
+
+        for (Transaction transaction : all) {
+            if (transaction.date.getMonthValue() == m && transaction.date.getYear() == y) {
+                result.add(transaction);
+            }
+        }
+        return result;
+    }
+
+    static ArrayList<Transaction> byCurrentYear() {
+        ArrayList<Transaction> result = new ArrayList<>();
+        int y = LocalDate.now().getYear();
+        ArrayList<Transaction> all = readTransactions();
+
+        for (Transaction transaction : all) {
+            if (transaction.date.getYear() == y) {
+                result.add(transaction);
+            }
+        }
+        return result;
+    }
+
+    static ArrayList<Transaction> byPreviousYear() {
+        ArrayList<Transaction> result = new ArrayList<>();
+        int y = LocalDate.now().getYear() - 1;
+        ArrayList<Transaction> all = readTransactions();
+
+        for (Transaction transaction : all) {
+            if (transaction.date.getYear() == y) {
+                result.add(transaction);
+            }
+        }
+        return result;
+    }
+
+    static ArrayList<Transaction> byVendor(String vendor) {
+        ArrayList<Transaction> result = new ArrayList<>();
+        ArrayList<Transaction> all = readTransactions();
+
+        for (Transaction transaction : all) {
+            if (transaction.vendor.equalsIgnoreCase(vendor)) {
+                result.add(transaction);
+            }
+        }
+        return result;
     }
 }
