@@ -1,7 +1,9 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -123,7 +125,63 @@ public class mainApp {
             System.out.println("(X) Exit to Home");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine().toUpperCase();
+            switch (choice) {
+                case "E":
 
+                    break;
+                case "D":
+
+                    break;
+                case "P":
+
+                    break;
+                case "R":
+                    showReportsMenu();
+                    break;
+                case "X":
+                    return;
+                default:
+                    System.out.println("Invalid option.");
+            }
         }
     }
+
+    static void showReportsMenu() {
+        while (true) {
+            System.out.println("\n=== Reports ===");
+            System.out.println("(1) Month To Date");
+            System.out.println("(2) Previous Month");
+            System.out.println("(3) Year To Date");
+            System.out.println("(4) Previous Year");
+            System.out.println("(5) Search by Vendor");
+            System.out.println("(B) Back to Ledger");
+            System.out.print("Choose a report: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+
+                    break;
+                case "2":
+
+                    break;
+                case "3":
+
+                    break;
+                case "4":
+
+                    break;
+                case "5":
+                    System.out.print("Enter vendor name: ");
+                    String vendor = scanner.nextLine();
+
+                    break;
+                case "B":
+                    return;
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
+    }
+
 }
