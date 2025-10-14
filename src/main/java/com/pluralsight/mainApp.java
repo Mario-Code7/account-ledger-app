@@ -127,13 +127,13 @@ public class mainApp {
             String choice = scanner.nextLine().toUpperCase();
             switch (choice) {
                 case "E":
-
+                    showTransactions(readTransactions(),"All Entries");
                     break;
                 case "D":
-
+                    showTransactions(onlyDeposits), "Deposits";
                     break;
                 case "P":
-
+                    showTransactions(onlyPayments), "Payment";
                     break;
                 case "R":
                     showReportsMenu();
@@ -160,21 +160,21 @@ public class mainApp {
 
             switch (choice) {
                 case "1":
-
+                    showTransactions(byCurrentMonth), "Month to Date";
                     break;
                 case "2":
-
+                    showTransactions(byPreviousMonth), "Previous Month";
                     break;
                 case "3":
-
+                    showTransactions(byYearDate), "Year to Date";
                     break;
                 case "4":
-
+                    showTransactions(byPreviousYear), "Previous Year";
                     break;
                 case "5":
                     System.out.print("Enter vendor name: ");
                     String vendor = scanner.nextLine();
-
+                    showTransactions(byVendor(vendor)) = "vendor: " + vendor;
                     break;
                 case "B":
                     return;
@@ -183,5 +183,4 @@ public class mainApp {
             }
         }
     }
-
 }
