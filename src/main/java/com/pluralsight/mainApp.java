@@ -181,4 +181,36 @@ public class mainApp {
             }
         }
     }
+    static ArrayList<Transaction> readTransactions() {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.toLowerCase().startsWith("date|")) {
+                    continue; // Skip header line
+                }
+                Transaction transaction = new Transaction(line);
+                transactions.add(transaction);
+            }
+            br.close();
+
+            // Sort by newest, first check if the first t1 is different from t2 to change to new
+            for (int i = 0; i < transactions.size() - 1; i++) {
+                for (int j = i + 1; j < transactions.size(); j++) {
+                    Transaction transaction1 = transactions.get(i);
+                    Transaction transaction2 = transactions.get(j);
+                    if (transaction1.date.isBefore(transaction2.date) ||
+                            (transaction1.date.equals(transaction2.date) && transaction1.time.isBefore(transaction2.time))) {
+                        transactions.set(i, transaction2);
+                        transactions.set(j, transaction1);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error reading transactions.");
+        }
+        return transactions;
+    }
 }
