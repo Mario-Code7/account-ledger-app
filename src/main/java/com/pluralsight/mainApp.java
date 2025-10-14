@@ -1,9 +1,7 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -85,4 +83,47 @@ public class mainApp {
         }
     }
 
+    static void showLedger() {
+        System.out.println("\n=== Ledger ===");
+
+        try {
+            File file = new File(fileName);
+            if (!file.exists()) {
+                System.out.println("No transactions found.");
+                return;
+            }
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String line;
+
+            // Print header \ -(minus) keeps it left-aligned, %n stays in its line
+            System.out.printf("%-12s %-10s %-20s %-20s %-10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+            System.out.println("----------------------------------------------------------------------------");
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|", 5); // split by pipe
+                if (parts.length == 5) {
+                    System.out.printf("%-12s %-10s %-20s %-20s $%-9s%n", parts[0], parts[1], parts[2], parts[3], parts[4]);
+                }
+            }
+
+            bufferedReader.close();
+        } catch (IOException e) {
+            System.out.println("Error reading ledger.");
+        }
+    }
+
+    static void showLedgerMenu() {
+        while (true) {
+            System.out.println("\n=== Ledger Menu ===");
+            System.out.println("(E) All Entries");
+            System.out.println("(D) Deposits");
+            System.out.println("(P) Payments");
+            System.out.println("(R) Reports");
+            System.out.println("(X) Exit to Home");
+            System.out.print("Choose an option: ");
+            String choice = scanner.nextLine().toUpperCase();
+
+        }
+    }
 }
