@@ -3,18 +3,22 @@ package com.pluralsight;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class mainApp {
-    static final String fileName = "transactions.csv";
-    static Scanner scanner = new Scanner(System.in);
+    //Name of file where transactions are stored
+    static final String fileName = "transactions (1).csv";
+    //Scanner for user input(more than one Scanner is used(put above main)
+    static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        //to loop the user back when the user hits EXIT
         while (true) {
             showMenu();
-            String choice = scanner.nextLine().toUpperCase();
-
+            String choice = scanner.nextLine().toUpperCase();//Read and make the input uppercase
+            //Keeps track of user choice in Menu
             switch (choice) {
                 case "A":
                     addTransaction("Deposit");
@@ -30,13 +34,14 @@ public class mainApp {
                     break;
                 case "X":
                     System.out.println("Application closed. Goodbye!");
-                    return;
+                    return;//Exit program
                 default:
                     System.out.println("Invalid choice. Try again.");
             }
         }
     }
 
+    // Display main menu options
     static void showMenu() {
         System.out.println("\n=== Home Screen ===");
         System.out.println("(A) To Add Deposit");
@@ -48,6 +53,7 @@ public class mainApp {
     }
 
     static void addTransaction(String type) {
+        //user adds deposit or payment transaction
         try {
             System.out.print("Enter description: ");
             String description = scanner.nextLine();
@@ -59,8 +65,8 @@ public class mainApp {
             double amount = Double.parseDouble(scanner.nextLine());
 
 
-            if (type.equalsIgnoreCase("Payment") && amount > 0) {
-                amount = -amount; // Payments are negative
+            if (type.equalsIgnoreCase("Payment") && amount > 0) {//if it's a payment store it as a negative.
+                amount = -1; // Payments are negative
             }
 
             // Get current date and time
@@ -68,9 +74,9 @@ public class mainApp {
             String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-            // date|time|description|vendor|amount
+            // date|time|description|vendor|amount to format
             String line = String.format("%s|%s|%s|%s|%.2f", date, time, description, vendor, amount);
-
+            //writes to the file
             FileWriter fileWriter = new FileWriter(fileName, true);
             PrintWriter printWriter = new PrintWriter(fileWriter);
             printWriter.println(line);
@@ -85,10 +91,11 @@ public class mainApp {
     }
 
     static void showLedger() {
+        //show all transaction from file in the table format/saves
         System.out.println("\n=== Ledger ===");
 
         try {
-            File file = new File(fileName);
+            File file = new File(fileName);//open the transaction file
             if (!file.exists()) {
                 System.out.println("No transactions found.");
                 return;
@@ -100,7 +107,7 @@ public class mainApp {
             // Print header \ -(minus) keeps it left-aligned, %n stays in its line
             System.out.printf("%-12s %-10s %-20s %-20s %-10s%n", "Date", "Time", "Description", "Vendor", "Amount");
             System.out.println("----------------------------------------------------------------------------");
-
+            //display and read each line
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|", 5); // split by pipe
                 if (parts.length == 5) {
@@ -115,24 +122,26 @@ public class mainApp {
     }
 
     static void showLedgerMenu() {
+        //shows menu for ledger options
         while (true) {
             System.out.println("\n=== Ledger Menu ===");
             System.out.println("(E) All Entries");
             System.out.println("(D) Deposits");
             System.out.println("(P) Payments");
             System.out.println("(R) Reports");
-            System.out.println("(X) Exit to Home");
+            System.out.println("(X) Exit to Main");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine().toUpperCase();
+
             switch (choice) {
                 case "E":
-                    showTransactions(readTransactions(),"All Entries");
+                    showTransactions(readTransactions(), "All Entries");
                     break;
                 case "D":
-                    showTransactions(onlyDeposits), "Deposits";
+                    showTransactions(onlyDeposits(), "Deposits");
                     break;
                 case "P":
-                    showTransactions(onlyPayments), "Payment";
+                    showTransactions(onlyPayments(), "Payments");
                     break;
                 case "R":
                     showReportsMenu();
@@ -146,6 +155,7 @@ public class mainApp {
     }
 
     static void showReportsMenu() {
+        //show report options
         while (true) {
             System.out.println("\n=== Reports ===");
             System.out.println("(1) Month To Date");
@@ -153,27 +163,31 @@ public class mainApp {
             System.out.println("(3) Year To Date");
             System.out.println("(4) Previous Year");
             System.out.println("(5) Search by Vendor");
-            System.out.println("(B) Back to Ledger");
+            System.out.println("(6) Custom Search");
+            System.out.println("(B) Back to Ledger Menu");
             System.out.print("Choose a report: ");
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    showTransactions(byCurrentMonth), "Month to Date";
+                    showTransactions(byCurrentMonth(), "Month To Date");
                     break;
                 case "2":
-                    showTransactions(byPreviousMonth), "Previous Month";
+                    showTransactions(byPreviousMonth(), "Previous Month");
                     break;
                 case "3":
-                    showTransactions(byYearDate), "Year to Date";
+                    showTransactions(byCurrentYear(), "Year To Date");
                     break;
                 case "4":
-                    showTransactions(byPreviousYear), "Previous Year";
+                    showTransactions(byPreviousYear(), "Previous Year");
                     break;
                 case "5":
                     System.out.print("Enter vendor name: ");
                     String vendor = scanner.nextLine();
-                    showTransactions(byVendor(vendor)) = "vendor: " + vendor;
+                    showTransactions(byVendor(vendor), "Vendor: " + vendor);
+                    break;
+                case "6":
+                    showTransactions(byCustomSearch(), "Custom Search");
                     break;
                 case "B":
                     return;
@@ -182,7 +196,8 @@ public class mainApp {
             }
         }
     }
-    static ArrayList<Transaction> readTransactions() {
+
+    static ArrayList<Transaction> readTransactions() {//Read all transaction to file in a list
         ArrayList<Transaction> transactions = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -191,17 +206,17 @@ public class mainApp {
                 if (line.toLowerCase().startsWith("date|")) {
                     continue; // Skip header line
                 }
-                Transaction transaction = new Transaction(line);
-                transactions.add(transaction);
+                Transaction t = new Transaction(line);//create transaction object
+                transactions.add(t);
             }
             br.close();
 
-            // Sort by newest, first check if the first t1 is different from t2 to change to new
-            for (int i = 0; i < transactions.size() - 1; i++) {
-                for (int j = i + 1; j < transactions.size(); j++) {
-                    Transaction transaction1 = transactions.get(i);
-                    Transaction transaction2 = transactions.get(j);
-                    if (transaction1.date.isBefore(transaction2.date) ||
+            // Sort by newest first
+            for (int i = 0; i < transactions.size() - 1; i++) {//outer loop(goes through every item, except last one) i is the current position to be replaced as the new one
+                for (int j = i + 1; j < transactions.size(); j++) {//inner loop(compares to i with every transaction basically to replace i
+                    Transaction transaction1 = transactions.get(i);//position of i
+                    Transaction transaction2 = transactions.get(j);//position of j
+                    if (transaction1.date.isBefore(transaction2.date) ||//checks if t2 is newer than t1, compare the dates by who is early (date and time)
                             (transaction1.date.equals(transaction2.date) && transaction1.time.isBefore(transaction2.time))) {
                         transactions.set(i, transaction2);
                         transactions.set(j, transaction1);
@@ -214,10 +229,11 @@ public class mainApp {
         }
         return transactions;
     }
-        static ArrayList<Transaction> onlyDeposits() {
-        ArrayList<Transaction> all = readTransactions();
+
+    static ArrayList<Transaction> onlyDeposits() {//shows only positive deposits amount
+        ArrayList<Transaction> all = readTransactions();//lists all transactions loaded in the file
         ArrayList<Transaction> deposits = new ArrayList<>();
-        for (Transaction transaction : all) {
+        for (Transaction transaction : all) {//go through each transaction inside all list one by one, calls each transaction, checks to see transaction matches user's filters(date, amount, vendor)
             if (transaction.amount >= 0) {
                 deposits.add(transaction);
             }
@@ -225,7 +241,7 @@ public class mainApp {
         return deposits;
     }
 
-    static ArrayList<Transaction> onlyPayments() {
+    static ArrayList<Transaction> onlyPayments() {//shows only payments with negative amount
         ArrayList<Transaction> all = readTransactions();
         ArrayList<Transaction> payments = new ArrayList<>();
         for (Transaction transaction : all) {
@@ -238,14 +254,14 @@ public class mainApp {
 
     static ArrayList<Transaction> byCurrentMonth() {
         ArrayList<Transaction> result = new ArrayList<>();
-        LocalDate now = LocalDate.now();
-        int m = now.getMonthValue();
-        int y = now.getYear();
+        LocalDate currentMonth = LocalDate.now();
+        int month = currentMonth.getMonthValue();
+        int year = currentMonth.getYear();
         ArrayList<Transaction> all = readTransactions();
 
-        for (Transaction t : all) {
-            if (t.date.getMonthValue() == m && t.date.getYear() == y) {
-                result.add(t);
+        for (Transaction transaction : all) {
+            if (transaction.date.getMonthValue() == month && transaction.date.getYear() == year) {
+                result.add(transaction);
             }
         }
         return result;
@@ -253,13 +269,13 @@ public class mainApp {
 
     static ArrayList<Transaction> byPreviousMonth() {
         ArrayList<Transaction> result = new ArrayList<>();
-        LocalDate now = LocalDate.now().minusMonths(1);
-        int m = now.getMonthValue();
-        int y = now.getYear();
+        LocalDate lastMonth = LocalDate.now().minusMonths(1);
+        int month = lastMonth.getMonthValue();
+        int year = lastMonth.getYear();
         ArrayList<Transaction> all = readTransactions();
 
         for (Transaction transaction : all) {
-            if (transaction.date.getMonthValue() == m && transaction.date.getYear() == y) {
+            if (transaction.date.getMonthValue() == month && transaction.date.getYear() == year) {
                 result.add(transaction);
             }
         }
@@ -268,11 +284,11 @@ public class mainApp {
 
     static ArrayList<Transaction> byCurrentYear() {
         ArrayList<Transaction> result = new ArrayList<>();
-        int y = LocalDate.now().getYear();
+        int year = LocalDate.now().getYear();
         ArrayList<Transaction> all = readTransactions();
 
         for (Transaction transaction : all) {
-            if (transaction.date.getYear() == y) {
+            if (transaction.date.getYear() == year) {
                 result.add(transaction);
             }
         }
@@ -281,11 +297,11 @@ public class mainApp {
 
     static ArrayList<Transaction> byPreviousYear() {
         ArrayList<Transaction> result = new ArrayList<>();
-        int y = LocalDate.now().getYear() - 1;
+        int year = LocalDate.now().getYear() - 1;
         ArrayList<Transaction> all = readTransactions();
 
         for (Transaction transaction : all) {
-            if (transaction.date.getYear() == y) {
+            if (transaction.date.getYear() == year) {
                 result.add(transaction);
             }
         }
@@ -293,8 +309,8 @@ public class mainApp {
     }
 
     static ArrayList<Transaction> byVendor(String vendor) {
-        ArrayList<Transaction> result = new ArrayList<>();
         ArrayList<Transaction> all = readTransactions();
+        ArrayList<Transaction> result = new ArrayList<>();
 
         for (Transaction transaction : all) {
             if (transaction.vendor.equalsIgnoreCase(vendor)) {
@@ -302,5 +318,112 @@ public class mainApp {
             }
         }
         return result;
+    }
+
+    static ArrayList<Transaction> byCustomSearch() {
+        ArrayList<Transaction> all = readTransactions();
+        ArrayList<Transaction> result = new ArrayList<>();
+
+        System.out.println("\n=== Custom Search ===");
+
+        System.out.print("Provide start date(yyyy-MM-dd) or leave blank: ");
+        String startDateChoice = scanner.nextLine().trim();
+        LocalDate startDate = null;
+        if (!startDateChoice.isEmpty()) {
+            startDate = LocalDate.parse(startDateChoice);
+        }
+
+        System.out.print("Provide end date(yyyy-MM-dd) or leave blank: ");
+        String endDateChoice = scanner.nextLine().trim();
+        LocalDate endDate = null;
+        if (!endDateChoice.isEmpty()) {
+            endDate = LocalDate.parse(endDateChoice);
+        }
+
+
+        System.out.print("Enter Description or leave blank: ");
+        String descriptionChoice = scanner.nextLine().trim();
+
+        System.out.print("Enter Vendor or leave blank: ");
+        String vendorChoice = scanner.nextLine().trim();
+
+        System.out.print("Enter Amount or leave blank: ");
+        String amountChoice = scanner.nextLine().trim();
+        Double amountValue = null;
+        if (!amountChoice.isEmpty()) {
+            amountValue = Double.parseDouble(amountChoice);
+        }
+
+        for (Transaction transaction : all) {//for-each loop for every transaction called all
+            boolean same = true;//starts true, if no match in date, vendor or etc it goes to false
+
+            if (startDate != null && transaction.date.isBefore(startDate)) {
+                same = false;
+            }
+
+            if (endDate != null && transaction.date.isAfter(endDate)) {
+                same = false;
+            }
+            //.contains helps without typing a whole description to match
+            if (!descriptionChoice.isEmpty() && !transaction.description.toLowerCase().contains(descriptionChoice.toLowerCase())) {
+                same = false;
+            }
+
+            if (!vendorChoice.isEmpty() && !transaction.vendor.toLowerCase().contains(vendorChoice.toLowerCase())) {
+                same = false;
+            }
+
+            if (amountValue != null && transaction.amount != amountValue) {
+                same = false;
+            }
+
+            if (same) {
+                result.add(transaction);
+            }
+        }
+
+        return result;
+    }
+
+    static void showTransactions(ArrayList<Transaction> list, String title) {
+        System.out.println("\n=== " + title + " ===");
+        if (list.isEmpty()) {
+            System.out.println("No transactions found.");
+            return;
+        }
+
+        System.out.printf("%-12s %-10s %-20s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        for (Transaction transaction : list) {
+            System.out.printf("%-12s %-10s %-20s %-20s %10.2f\n",
+                    transaction.date.toString(),
+                    transaction.time.toString(),
+                    transaction.description,
+                    transaction.vendor,
+                    transaction.amount);
+        }
+    }
+
+    static class Transaction {//constructor
+        LocalDate date;
+        LocalTime time;
+        String description;
+        String vendor;
+        double amount;
+
+        public Transaction(String line) {
+            String[] parts = line.split("\\|");
+            if (parts.length != 5) {
+                throw new IllegalArgumentException("Invalid transaction format");
+            }
+
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+            this.date = LocalDate.parse(parts[0], dateFormatter);
+            this.time = LocalTime.parse(parts[1], timeFormatter);
+            this.description = parts[2];
+            this.vendor = parts[3];
+            this.amount = Double.parseDouble(parts[4]);
+        }
     }
 }
