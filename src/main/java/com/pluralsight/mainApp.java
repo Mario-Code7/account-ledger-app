@@ -341,13 +341,13 @@ public class mainApp {
         }
 
 
-        System.out.print("Enter Description or leave blank: ");
+        System.out.print("Enter Description / leave blank: ");
         String descriptionChoice = scanner.nextLine().trim();
 
-        System.out.print("Enter Vendor or leave blank: ");
+        System.out.print("Enter Vendor / leave blank: ");
         String vendorChoice = scanner.nextLine().trim();
 
-        System.out.print("Enter Amount or leave blank: ");
+        System.out.print("Enter Amount / leave blank: ");
         String amount = scanner.nextLine().trim();
         Double amountValue = null;
         if (!amount.isEmpty()) {
