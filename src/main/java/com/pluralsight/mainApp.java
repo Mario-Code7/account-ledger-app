@@ -342,10 +342,10 @@ public class mainApp {
 
 
         System.out.print("Enter Description / leave blank: ");
-        String descriptionChoice = scanner.nextLine().trim();
+        String descriptionSearch = scanner.nextLine().trim();
 
         System.out.print("Enter Vendor / leave blank: ");
-        String vendorChoice = scanner.nextLine().trim();
+        String vendorSearch = scanner.nextLine().trim();
 
         System.out.print("Enter Amount / leave blank: ");
         String amount = scanner.nextLine().trim();
@@ -365,11 +365,11 @@ public class mainApp {
                 same = false;
             }
             //.contains helps without typing a whole description to match
-            if (!descriptionChoice.isEmpty() && !transaction.description.toLowerCase().contains(descriptionChoice.toLowerCase())) {
+            if (!descriptionSearch.isEmpty() && !transaction.description.toLowerCase().contains(descriptionSearch.toLowerCase())) {
                 same = false;
             }
 
-            if (!vendorChoice.isEmpty() && !transaction.vendor.toLowerCase().contains(vendorChoice.toLowerCase())) {
+            if (!vendorSearch.isEmpty() && !transaction.vendor.toLowerCase().contains(vendorSearch.toLowerCase())) {
                 same = false;
             }
 
