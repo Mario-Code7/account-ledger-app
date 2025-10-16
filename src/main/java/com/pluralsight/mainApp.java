@@ -327,17 +327,17 @@ public class mainApp {
         System.out.println("\n=== Custom Search ===");
 
         System.out.print("Provide start date(yyyy-MM-dd) or leave blank: ");
-        String startDateChoice = scanner.nextLine().trim();
+        String startDateSearch = scanner.nextLine().trim();
         LocalDate startDate = null;
-        if (!startDateChoice.isEmpty()) {
-            startDate = LocalDate.parse(startDateChoice);
+        if (!startDateSearch.isEmpty()) {
+            startDate = LocalDate.parse(startDateSearch);
         }
 
         System.out.print("Provide end date(yyyy-MM-dd) or leave blank: ");
-        String endDateChoice = scanner.nextLine().trim();
+        String endDateSearch = scanner.nextLine().trim();
         LocalDate endDate = null;
-        if (!endDateChoice.isEmpty()) {
-            endDate = LocalDate.parse(endDateChoice);
+        if (!endDateSearch.isEmpty()) {
+            endDate = LocalDate.parse(endDateSearch);
         }
 
 
@@ -348,10 +348,10 @@ public class mainApp {
         String vendorChoice = scanner.nextLine().trim();
 
         System.out.print("Enter Amount or leave blank: ");
-        String amountChoice = scanner.nextLine().trim();
+        String amount = scanner.nextLine().trim();
         Double amountValue = null;
-        if (!amountChoice.isEmpty()) {
-            amountValue = Double.parseDouble(amountChoice);
+        if (!amount.isEmpty()) {
+            amountValue = Double.parseDouble(amount);
         }
 
         for (Transaction transaction : all) {//for-each loop for every transaction called all
