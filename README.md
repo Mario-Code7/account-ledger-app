@@ -62,3 +62,13 @@ YYYY-MM-DD|HH:MM:SS|Description|Vendor|Amount
 
 ## Run the program
 java com.pluralsight.mainApp
+
+## Screenshot
+1. Home Screen
+<img width="1801" height="422" alt="Screenshot 2025-10-16 132916" src="https://github.com/user-attachments/assets/0f1ea123-6720-4114-957c-39a706f002e3" />
+
+2. Ledger Menu
+<img width="1796" height="421" alt="Screenshot 2025-10-16 132940" src="https://github.com/user-attachments/assets/469c0bb2-d451-4b2a-b1bb-68dcf2198a3e" />
+
+3. Reports Menu
+<img width="1811" height="412" alt="Screenshot 2025-10-16 132957" src="https://github.com/user-attachments/assets/f9df1f06-856e-4a51-8a58-7ea9c7adecfe" />
