@@ -213,13 +213,13 @@ public class mainApp {
 
             // Sort by newest first
             for (int i = 0; i < transactions.size() - 1; i++) {//outer loop(goes through every item, except last one) i is the current position to be replaced as the new one
-                for (int j = i + 1; j < transactions.size(); j++) {//inner loop(compares to i with every transaction basically to replace i
+                for (int e = i + 1; e < transactions.size(); e++) {//inner loop(compares to i with every transaction basically to replace i
                     Transaction transaction1 = transactions.get(i);//position of i
-                    Transaction transaction2 = transactions.get(j);//position of j
+                    Transaction transaction2 = transactions.get(e);//position of j
                     if (transaction1.date.isBefore(transaction2.date) ||//checks if t2 is newer than t1, compare the dates by who is early (date and time)
                             (transaction1.date.equals(transaction2.date) && transaction1.time.isBefore(transaction2.time))) {
                         transactions.set(i, transaction2);
-                        transactions.set(j, transaction1);
+                        transactions.set(e, transaction1);
                     }
                 }
             }
