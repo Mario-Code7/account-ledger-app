@@ -1,5 +1,5 @@
 package com.pluralsight;
-
+//import statements
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class mainApp {
+public class MainApp {
     //Name of file where transactions are stored
     static final String fileName = "transactions (1).csv";
     //Scanner for user input(more than one Scanner is used(put above main)
@@ -66,7 +66,7 @@ public class mainApp {
 
 
             if (type.equalsIgnoreCase("Payment") && amount > 0) {//if it's a payment store it as a negative.
-                amount = -1; // Payments are negative
+                amount = -Math.abs(amount); // Payments are negative
             }
 
             // Get current date and time
