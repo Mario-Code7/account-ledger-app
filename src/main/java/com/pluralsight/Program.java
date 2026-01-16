@@ -1,5 +1,7 @@
 package com.pluralsight;
 //import statements
+import com.pluralsight.colors.Colors;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,7 +45,15 @@ public class MainApp {
 
     // Display main menu options
     static void showMenu() {
-        System.out.println("\n=== Home Screen ===");
+
+        System.out.println("\n \uD83C\uDF2E Welcome my friend, your ledger is ready! \uD83C\uDF2E");
+        System.out.println(Colors.BRIGHT_BLUE);
+        System.out.println("\n*****************************");
+        System.out.println(Colors.BRIGHT_YELLOW);
+        System.out.println("    ✨ Account Home ✨    ");
+        System.out.println(Colors.BRIGHT_BLUE);
+        System.out.println("*****************************");
+        System.out.println(Colors.RESET);
         System.out.println("(A) To Add Deposit");
         System.out.println("(B) To Make a Payment (Debit)");
         System.out.println("(C) Show Ledger");
@@ -92,7 +102,12 @@ public class MainApp {
 
     static void showLedger() {
         //show all transaction from file in the table format/saves
-        System.out.println("\n=== Ledger ===");
+        System.out.println(Colors.BRIGHT_BLUE);
+        System.out.println("\n*****************************");
+        System.out.println(Colors.BRIGHT_YELLOW);
+        System.out.println("       ✨ Ledger✨    ");
+        System.out.println(Colors.BRIGHT_BLUE);
+        System.out.println("*****************************");
 
         try {
             File file = new File(fileName);//open the transaction file
@@ -124,7 +139,13 @@ public class MainApp {
     static void showLedgerMenu() {
         //shows menu for ledger options
         while (true) {
-            System.out.println("\n=== Ledger Menu ===");
+            System.out.println(Colors.BRIGHT_BLUE);
+            System.out.println("\n*****************************");
+            System.out.println(Colors.BRIGHT_YELLOW);
+            System.out.println("         ✨ Ledger ✨    ");
+            System.out.println(Colors.BRIGHT_BLUE);
+            System.out.println("*****************************");
+            System.out.println(Colors.RESET);
             System.out.println("(E) All Entries");
             System.out.println("(D) Deposits");
             System.out.println("(P) Payments");
@@ -157,7 +178,13 @@ public class MainApp {
     static void showReportsMenu() {
         //show report options
         while (true) {
-            System.out.println("\n=== Reports ===");
+            System.out.println(Colors.BRIGHT_BLUE);
+            System.out.println("\n*****************************");
+            System.out.println(Colors.BRIGHT_YELLOW);
+            System.out.println("        ✨ Reports ✨    ");
+            System.out.println(Colors.BRIGHT_BLUE);
+            System.out.println("*****************************");
+            System.out.println(Colors.RESET);
             System.out.println("(1) Month To Date");
             System.out.println("(2) Previous Month");
             System.out.println("(3) Year To Date");
