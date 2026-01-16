@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class MainApp {
+public class Program {
     //Name of file where transactions are stored
     static final String fileName = "transactions (1).csv";
     //Scanner for user input(more than one Scanner is used(put above main)
